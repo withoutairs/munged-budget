@@ -1,0 +1,10 @@
+keyring==10.3.2
+mintapi==1.23
+numpy==1.12.1
+pandas==0.19.2
+python-dateutil==2.6.0
+pytz==2017.2
+requests==2.13.0
+six==1.10.0
+wsgiref==0.1.2
+xmltodict==0.10.2
