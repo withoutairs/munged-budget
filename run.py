@@ -11,3 +11,5 @@ t = mint.get_transactions()
 filename = "mint-transactions-{}.csv".format(datetime.datetime.now().isoformat()[:10])
 t.to_csv(filename)
 
+grouped = t.groupby(['category','transaction_type', t.date.dt.year, t.date.dt.month])
+grouped.aggregate(sum)
