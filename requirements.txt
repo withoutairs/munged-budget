@@ -8,3 +8,4 @@ requests==2.13.0
 six==1.10.0
 xmltodict==0.10.2
 pyyaml==3.12
+openpyxl==2.4.8

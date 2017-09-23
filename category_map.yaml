@@ -1,0 +1,76 @@
+air travel: Vacation
+alcohol & bars: Restaurants
+amusement: Entertainment
+arts: Entertainment
+atm fee: Financial
+auto & transport: Car
+auto insurance: Car
+auto payment: Car
+babysitter & daycare: Babysitter
+books: Shopping
+business expense: Transfer
+business services: Home
+cash & atm: Transfer
+charity: Gifts
+chris lunches: Restaurants
+chris rock star: Entertainment
+clothing: Clothing
+coffee shops: Restaurants
+credit card payment: Transfer
+dentist: Health
+doctor: Health
+education: Education
+electronics & software: Entertainment
+entertainment: Entertainment
+eyecare: Health
+fast food: Restaurants
+fees & charges: Financial
+financial: Financial
+food & dining: Restaurants
+furnishings: Furnishings
+gas & fuel: Car
+gift: Gifts
+gifts & donations: Gifts
+groceries: Groceries
+gym: Gym
+hair: Personal Care
+health & fitness: Gym
+home: Furnishings
+home improvement: Furnishings
+home phone: Utilities
+home services: Home
+hotel: Vacation
+interest income: Income
+internet: Utilities
+jpf: JPF
+kids: Kids
+kids activities: Kids
+kids birthday: Kids
+laundry: Clothing
+lawn & garden: Utilities
+mobile phone: Utilities
+mortgage & rent: Mortgage
+movies & dvds: Entertainment
+music: Entertainment
+newspapers & magazines: Entertainment
+office supplies: Shopping
+parking: Car
+paycheck: Income
+personal care: Personal Care
+pet food & supplies: Pets
+pets: Pets
+pharmacy: Health
+public transportation: Getting Around
+rental car & taxi: Getting Around
+restaurants: Restaurants
+service & parts: Car
+shipping: Shopping
+shopping: Shopping
+spa & massage: Personal Care
+sporting goods: Shopping
+sports: Entertainment
+transfer: Ignore
+travel: Vacation
+tuition: Education
+utilities: Utilities
+vacation: Vacation

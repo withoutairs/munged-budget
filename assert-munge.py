@@ -2,6 +2,7 @@ import pandas as pd
 import unittest
 import yaml
 import glob
+import datetime
 
 class Munger():
     "Adds our budget category and generally cleans up the Mint data"
@@ -18,6 +19,8 @@ class Munger():
         map = yaml.load(file)
         file.close()
         self.df['budget_category'] = self.df['category'].apply(map.get)
+        excel = "munged-{}.xlsx".format(datetime.datetime.now().isoformat()[:10])
+        self.df.to_excel(excel)
 
 class AssertMungeTestCase(unittest.TestCase):
     def setUp(self):
