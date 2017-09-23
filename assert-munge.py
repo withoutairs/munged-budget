@@ -6,8 +6,12 @@ import glob
 class Munger():
     "Adds our budget category and generally cleans up the Mint data"
     def __init__(self, filename=None):
-        self.df = pd.read_csv(sorted(glob.glob('*.csv'))[-1])
+        csv = sorted(glob.glob('*.csv'))[-1]
+        print ("Reading from %s" % csv)
+        self.df = pd.read_csv(csv)
         self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
+        self.df['year'] = self.df['date'].apply(lambda x: x.year)
+        self.df = self.df[self.df.year >= 2017]
 
     def munge(self):
         file = open('category_map.yaml', 'r')
