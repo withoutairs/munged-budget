@@ -3,6 +3,7 @@ import unittest
 import yaml
 import glob
 import datetime
+from subprocess import call
 
 class Munger():
     "Adds our budget category and generally cleans up the Mint data"
@@ -24,11 +25,16 @@ class Munger():
 
 class AssertMungeTestCase(unittest.TestCase):
     def setUp(self):
+        call(["taskkill", "/F", "/IM", "EXCEL.EXE"])
         self.m = Munger()
         self.m.munge()
 
     def test_all_transactions_have_budget_categories(self):
-        unittest.TestCase.assertEqual(self,0,len(self.m.df[self.m.df.budget_category.isnull()]))
+        no_budget_category = self.m.df[self.m.df.budget_category.isnull()]
+        if len(no_budget_category) > 0:
+            print("The following transactions have no budget category")
+            print(no_budget_category)
+            unittest.TestCase.assertEqual(self, 0, len(no_budget_category))
 
     def test_not_too_many_budget_categories(self):
         grouped = self.m.df.groupby(['budget_category'])
