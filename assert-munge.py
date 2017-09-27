@@ -4,6 +4,11 @@ import yaml
 import glob
 import datetime
 from subprocess import call
+from subprocess import Popen
+
+def excel_name():
+    "OO w/e"
+    return "munged-{}.xlsx".format(datetime.datetime.now().isoformat()[:10])
 
 class Munger():
     "Adds our budget category and generally cleans up the Mint data"
@@ -28,8 +33,7 @@ class Munger():
         file.close()
         self.df['budget_category'] = self.df['category'].apply(map.get)
         self.df['amount'] = self.df.apply(lambda row: self.fix_paychecks(row), axis=1)
-        excel = "munged-{}.xlsx".format(datetime.datetime.now().isoformat()[:10])
-        self.df.to_excel(excel)
+        self.df.to_excel(excel_name())
 
 class AssertMungeTestCase(unittest.TestCase):
     def setUp(self):
@@ -50,3 +54,7 @@ class AssertMungeTestCase(unittest.TestCase):
         how_many = len(grouped.aggregate(sum))
         unittest.TestCase.assertLessEqual(self, how_many, too_many,
                                           "How can you think about %s budget categories?" % how_many)
+
+    @classmethod
+    def tearDownClass(self):
+        Popen(["C:/Program Files (x86)/Microsoft Office/root/Office16/EXCEL.EXE", excel_name()])
