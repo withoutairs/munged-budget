@@ -9,3 +9,9 @@ six==1.10.0
 xmltodict==0.10.2
 pyyaml==3.12
 openpyxl==2.4.8
+
+
+The following transactions have no budget category
+    Unnamed: 0       date description          original_description  amount  \
+34          34 2017-09-26  Check 2198  CHECK #2198Check-CHECK #2198   -6.25
+36          36 2017-09-26  Check 3000  CHECK #3000Check-CHECK #3000 -525.00

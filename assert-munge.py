@@ -13,13 +13,21 @@ class Munger():
         self.df = pd.read_csv(csv)
         self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
         self.df['year'] = self.df['date'].apply(lambda x: x.year)
+        self.df['month'] = self.df['date'].apply(lambda x: x.month)
         self.df = self.df[self.df.year >= 2017]
+
+    def fix_paychecks(self, row):
+        if row['transaction_type'] == 'debit':
+            return row['amount'] * -1
+        else:
+            return row['amount']
 
     def munge(self):
         file = open('category_map.yaml', 'r')
         map = yaml.load(file)
         file.close()
         self.df['budget_category'] = self.df['category'].apply(map.get)
+        self.df['amount'] = self.df.apply(lambda row: self.fix_paychecks(row), axis=1)
         excel = "munged-{}.xlsx".format(datetime.datetime.now().isoformat()[:10])
         self.df.to_excel(excel)
 
