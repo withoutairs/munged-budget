@@ -19,6 +19,7 @@ class Munger():
         self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
         self.df['year'] = self.df['date'].apply(lambda x: x.year)
         self.df['month'] = self.df['date'].apply(lambda x: x.month)
+        self.df['month-year'] = self.df['date'].apply(lambda x: str(x.year) + '-' + ("%02d" % (x.month)))
         self.df = self.df[self.df.year >= 2017]
 
     def fix_paychecks(self, row):
