@@ -3,8 +3,7 @@ import unittest
 import yaml
 import glob
 import datetime
-from subprocess import call
-from subprocess import Popen
+import os
 
 def excel_name():
     "OO w/e"
@@ -38,12 +37,14 @@ class Munger():
 
 class AssertMungeTestCase(unittest.TestCase):
     def setUp(self):
-        call(["taskkill", "/F", "/IM", "EXCEL.EXE"])
+#        call(["taskkill", "/F", "/IM", "EXCEL.EXE"])
         self.m = Munger()
         self.m.munge()
 
     def test_all_transactions_have_budget_categories(self):
         no_budget_category = self.m.df[self.m.df.budget_category.isnull()]
+        pd.set_option('display.max_columns', 500)
+        no_budget_category = no_budget_category[['date', 'description', 'amount']]
         if len(no_budget_category) > 0:
             print("The following transactions have no budget category")
             print(no_budget_category)
@@ -58,4 +59,4 @@ class AssertMungeTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        Popen(["C:/Program Files (x86)/Microsoft Office/root/Office16/EXCEL.EXE", excel_name()])
+        os.system("open " + excel_name())
