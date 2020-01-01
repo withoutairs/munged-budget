@@ -37,7 +37,6 @@ class Munger():
 
 class AssertMungeTestCase(unittest.TestCase):
     def setUp(self):
-#        call(["taskkill", "/F", "/IM", "EXCEL.EXE"])
         self.m = Munger()
         self.m.munge()
 
