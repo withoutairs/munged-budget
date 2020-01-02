@@ -33,7 +33,34 @@ class Munger():
         file.close()
         self.df['budget_category'] = self.df['category'].apply(map.get)
         self.df['amount'] = self.df.apply(lambda row: self.fix_paychecks(row), axis=1)
+        self.df['description'] = self.df.apply(lambda row: self.fix_descriptions(row), axis=1)
         self.df.to_excel(excel_name())
+
+    def fix_descriptions(self, row):
+        if row['description'].startswith('OCULUS *'):
+            return "Oculus"
+        if row['description'].startswith('RALLY HEALTH INC '):
+            return "RALLY HEALTH INC "
+        if row['description'].startswith('Prime Video'):
+            return "Prime Video"
+        if row['description'].startswith('POTOMAC ELEC'):
+            return "POTOMAC ELEC"
+        if row['description'].startswith('To Loan 01'):
+            return "To Loan 01"
+        if row['description'].startswith('AMZNGrocery'):
+            return "AMZNGrocery"
+        if row['description'].startswith('UNITED 016'):
+            return "UNITED"
+
+        if row['description'].startswith('Prime Now'):
+            return "Prime Now"
+        if row['description'].startswith('PrimeNowTips'):
+            return "Prime Now"
+        if row['description'].startswith('PrimeNowMktp'):
+            return "Prime Now"
+
+        else:
+            return row['description']
 
 class AssertMungeTestCase(unittest.TestCase):
     def setUp(self):
