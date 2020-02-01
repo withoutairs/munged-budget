@@ -29,7 +29,7 @@ class Munger():
 
     def munge(self):
         file = open('category_map.yaml', 'r')
-        map = yaml.load(file)
+        map = yaml.load(file, Loader=yaml.FullLoader)
         file.close()
         self.df['budget_category'] = self.df['category'].apply(map.get)
         self.df['amount'] = self.df.apply(lambda row: self.fix_paychecks(row), axis=1)
