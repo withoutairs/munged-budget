@@ -8,6 +8,6 @@ six==1.12.0
 requests==2.20.0
 xmltodict==0.12.0
 openpyxl==2.4.8
-pyyaml==5.3
+pyyaml==5.4.1
 oathtool==2.3.0
 selenium-requests==1.3
