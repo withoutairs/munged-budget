@@ -46,6 +46,7 @@ hotel: Vacation
 interest income: Income
 income: Income
 internet: Utilities
+investments: Ignore
 jeanne: Jeanne
 jpf: JPF
 kids: Kids
@@ -53,11 +54,15 @@ kids activities: Kids
 kids birthday: Kids
 laundry: Clothing
 lawn & garden: Furnishings
+loans: Ignore
+loan interest: Ignore
+loan payment: Ignore
 local tax: Tax
 mobile phone: Utilities
 mortgage & rent: Mortgage
 movies & dvds: Entertainment
 music: Entertainment
+nan: Ignore
 newspapers & magazines: Entertainment
 office supplies: Shopping
 parking: Car

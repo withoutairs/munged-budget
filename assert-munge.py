@@ -17,6 +17,7 @@ class Munger():
         self.df = pd.read_csv(csv)
         self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
         self.df['year'] = self.df['date'].apply(lambda x: x.year)
+        self.df['category'] = self.df['category'].apply(lambda x: str(x).lower())
         self.df['month'] = self.df['date'].apply(lambda x: x.month)
         self.df['month-year'] = self.df['date'].apply(lambda x: str(x.year) + '-' + ("%02d" % (x.month)))
         self.df['year-week'] = self.df['date'].apply(lambda x: str(x.year) + '-' + ("%02d" % x.weekofyear))
@@ -71,7 +72,7 @@ class AssertMungeTestCase(unittest.TestCase):
     def test_all_transactions_have_budget_categories(self):
         no_budget_category = self.m.df[self.m.df.budget_category.isnull()]
         pd.set_option('display.max_columns', 500)
-        no_budget_category = no_budget_category[['date', 'description', 'amount']]
+        no_budget_category = no_budget_category[['date', 'description', 'amount', 'category']]
         if len(no_budget_category) > 0:
             print("The following transactions have no budget category")
             print(no_budget_category)

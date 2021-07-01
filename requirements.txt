@@ -1,5 +1,5 @@
 keyring==10.3.2
-mintapi==1.44
+mintapi==1.49
 numpy==1.19.3
 pandas==1.1.4
 python-dateutil==2.8.0
@@ -7,7 +7,6 @@ pytz==2018.9
 six==1.12.0
 requests==2.20.0
 xmltodict==0.12.0
-openpyxl==2.4.8
+openpyxl==3.0.7
 pyyaml==5.4.1
 oathtool==2.3.0
-selenium-requests==1.3
