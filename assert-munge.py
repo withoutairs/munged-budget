@@ -3,6 +3,7 @@ import unittest
 import yaml
 import glob
 import datetime
+import calendar
 import os
 
 def excel_name():
@@ -11,9 +12,10 @@ def excel_name():
 
 class Munger():
     "Adds our budget category and generally cleans up the Mint data"
-    def __init__(self, filename=None):
-        csv = sorted(glob.glob('*.csv'))[-1]
-        print ("Reading from %s" % csv)
+    def __init__(self, filename=None, since=2022):
+        fname = sorted(glob.glob('*.csv'))[-1]
+        csv = fname
+        print("Reading from %s, all transactions since %s" % (csv, str(since)))
         self.df = pd.read_csv(csv)
         self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
         self.df['year'] = self.df['date'].apply(lambda x: x.year)
@@ -21,7 +23,11 @@ class Munger():
         self.df['month'] = self.df['date'].apply(lambda x: x.month)
         self.df['month-year'] = self.df['date'].apply(lambda x: str(x.year) + '-' + ("%02d" % (x.month)))
         self.df['year-week'] = self.df['date'].apply(lambda x: str(x.year) + '-' + ("%02d" % x.weekofyear))
-        self.df = self.df[self.df.year >= 2017]
+        self.df = self.df[self.df.year >= since]
+
+        self.file_day = int(fname[26:28])
+        self.file_month = int(fname[23:25])
+        self.file_year = int(fname[18:22])
 
     def fix_paychecks(self, row):
         if row['transaction_type'] == 'debit':
@@ -68,6 +74,8 @@ class AssertMungeTestCase(unittest.TestCase):
     def setUp(self):
         self.m = Munger()
         self.m.munge()
+        with open('budget.yaml', 'r') as f:
+            self.budget = yaml.load(f, Loader=yaml.FullLoader)
 
     def test_all_transactions_have_budget_categories(self):
         no_budget_category = self.m.df[self.m.df.budget_category.isnull()]
@@ -84,6 +92,35 @@ class AssertMungeTestCase(unittest.TestCase):
         how_many = len(grouped.aggregate(sum))
         unittest.TestCase.assertLessEqual(self, how_many, too_many,
                                           "How can you think about %s budget categories?" % how_many)
+
+    def get_budget_goal(self, row):
+        return self.budget.get(row['budget_category'])
+
+    def format_budget_progress(self, row):
+        return str(round((row['amount'] / row['budget_goal']) * 100)) + '%'
+
+    def is_over(self, row, p):
+        if p <= (row['amount'] / row['budget_goal']):
+            return "*"
+        else:
+            return ""
+
+    def test_against_budget(self):
+        print('x' * 80)
+        p = int(self.m.file_day) / calendar._monthlen(self.m.file_year, self.m.file_month)
+        p_fmt = str(int(round(p, 2) * 100))
+        print(f"File is {p_fmt}% of the month")
+
+        # TODO dynamically determine "this month"
+        month_wanted = datetime.datetime.now().isoformat()[:7]  # usually
+        month_wanted = '2022-02' # override
+        budget_category_totals = self.m.df[self.m.df['month-year'] == str(month_wanted)].groupby('budget_category').sum('amount') * -1
+        budget_category_totals['budget_category'] = budget_category_totals.index
+        budget_category_totals['budget_goal'] = budget_category_totals.apply(lambda row: self.get_budget_goal(row), axis=1)
+        budget_category_totals['budget_progress'] = budget_category_totals.apply(lambda row: self.format_budget_progress(row), axis=1)
+        budget_category_totals['is_over'] = budget_category_totals.apply(lambda row: self.is_over(row, p), axis=1)
+        print(budget_category_totals)
+        print('-=' * 40)
 
     @classmethod
     def tearDownClass(self):

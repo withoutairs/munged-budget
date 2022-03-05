@@ -1,5 +1,5 @@
 keyring==10.3.2
-mintapi==1.49
+mintapi==1.61
 numpy==1.19.3
 pandas==1.1.4
 python-dateutil==2.8.0
