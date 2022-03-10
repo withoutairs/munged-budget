@@ -122,7 +122,7 @@ class AssertMungeTestCase(unittest.TestCase):
         budget_category_totals['budget_goal'] = budget_category_totals.apply(lambda row: self.get_budget_goal(row), axis=1)
         budget_category_totals['budget_progress'] = budget_category_totals.apply(lambda row: self.format_budget_progress(row), axis=1)
         budget_category_totals['is_over'] = budget_category_totals.apply(lambda row: self.is_over(row, p), axis=1)
-        print(budget_category_totals)
+        print(budget_category_totals.loc[:, ['budget_category','amount', 'budget_goal', "budget_progress", "is_over"]])
         print('-=' * 40)
 
     @classmethod
