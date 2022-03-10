@@ -94,7 +94,11 @@ class AssertMungeTestCase(unittest.TestCase):
                                           "How can you think about %s budget categories?" % how_many)
 
     def get_budget_goal(self, row):
-        return self.budget.get(row['budget_category'])
+        goal = self.budget.get(row['budget_category'])
+        if goal is not None:
+            return goal
+        else:
+            print("**** no budget goal for " + (row['budget_category']))
 
     def format_budget_progress(self, row):
         return str(round((row['amount'] / row['budget_goal']) * 100)) + '%'
@@ -111,9 +115,8 @@ class AssertMungeTestCase(unittest.TestCase):
         p_fmt = str(int(round(p, 2) * 100))
         print(f"File is {p_fmt}% of the month")
 
-        # TODO dynamically determine "this month"
         month_wanted = datetime.datetime.now().isoformat()[:7]  # usually
-        month_wanted = '2022-02' # override
+        # month_wanted = '2022-02' # override
         budget_category_totals = self.m.df[self.m.df['month-year'] == str(month_wanted)].groupby('budget_category').sum('amount') * -1
         budget_category_totals['budget_category'] = budget_category_totals.index
         budget_category_totals['budget_goal'] = budget_category_totals.apply(lambda row: self.get_budget_goal(row), axis=1)
