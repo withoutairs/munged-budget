@@ -1,6 +1,6 @@
 keyring==10.3.2
 mintapi==1.64
-numpy==1.19.3
+numpy==1.21.0
 pandas==1.1.4
 python-dateutil==2.8.0
 pytz==2018.9
