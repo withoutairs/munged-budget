@@ -116,7 +116,7 @@ class AssertMungeTestCase(unittest.TestCase):
         print(f"File is {p_fmt}% of the month")
 
         month_wanted = datetime.datetime.now().isoformat()[:7]  # usually
-        # month_wanted = '2022-02' # override
+        # month_wanted = '2022-04' # override
         budget_category_totals = self.m.df[self.m.df['month-year'] == str(month_wanted)].groupby('budget_category').sum('amount') * -1
         budget_category_totals['budget_category'] = budget_category_totals.index
         budget_category_totals['budget_goal'] = budget_category_totals.apply(lambda row: self.get_budget_goal(row), axis=1)

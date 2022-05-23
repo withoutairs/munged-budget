@@ -1,23 +1,25 @@
 ---
-Car: 300
-Clothing: 100
-Entertainment: 1000
+Car: 500
+Clothing: 500
+Education: 100
+Entertainment: 800
+Financial: 1
 Furnishings: 1000
-Getting Around: 1000
+Getting Around: 100
 Gifts: 1000
-Groceries: 2000
-Gym: 100
-Health: 1000
-Home: 10000
+Groceries: 1800
+Gym: 275
+Health: 500
+Home: 500
 Ignore: 10000
-Income: 10000
-Kids: 10000
-Mortgage: 10000
-Personal Care: 10000
-Pets: 10000
-Restaurants: 10000
-Shopping: 10000
+Income: 25000
+Kids: 200
+Mortgage: 7000
+Personal Care: 300
+Pets: 100
+Restaurants: 1000
+Shopping: 500
 Transfer: 10000
-Utilities: 10000
-Vacation: 10000
-'763': 100
+Utilities: 600
+Vacation: 500
+'763': 1

@@ -9,4 +9,3 @@ mint = mintapi.Mint(username, password, headless=False, mfa_method='soft-token',
 t = mint.get_transactions()
 filename = "mint-transactions-{}.csv".format(datetime.datetime.now().isoformat()[:10])
 t.to_csv(filename)
-# 532 check is for 763 - Rush Services
