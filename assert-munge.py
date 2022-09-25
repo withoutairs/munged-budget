@@ -19,7 +19,7 @@ class Munger():
         self.df = pd.read_csv(csv)
         self.df['date'] = pd.to_datetime(self.df['date'], errors='coerce')
         self.df['year'] = self.df['date'].apply(lambda x: x.year)
-        self.df['category'] = self.df['category'].apply(lambda x: str(x).lower())
+        self.df['category'] = self.df['category.name'].apply(lambda x: str(x).lower())
         self.df['month'] = self.df['date'].apply(lambda x: x.month)
         self.df['month-year'] = self.df['date'].apply(lambda x: str(x.year) + '-' + ("%02d" % (x.month)))
         self.df['year-week'] = self.df['date'].apply(lambda x: str(x.year) + '-' + ("%02d" % x.weekofyear))
@@ -30,7 +30,7 @@ class Munger():
         self.file_year = int(fname[18:22])
 
     def fix_paychecks(self, row):
-        if row['transaction_type'] == 'debit':
+        if row['isExpense'] == 'True':
             return row['amount'] * -1
         else:
             return row['amount']
@@ -42,7 +42,7 @@ class Munger():
         self.df['budget_category'] = self.df['category'].apply(map.get)
         self.df['amount'] = self.df.apply(lambda row: self.fix_paychecks(row), axis=1)
         self.df['description'] = self.df.apply(lambda row: self.fix_descriptions(row), axis=1)
-        self.df.to_excel(excel_name())
+        self.df.to_excel(excel_name(),index=False)
 
     def fix_descriptions(self, row):
         if row['description'].startswith('OCULUS *'):
@@ -115,8 +115,8 @@ class AssertMungeTestCase(unittest.TestCase):
         p_fmt = str(int(round(p, 2) * 100))
         print(f"File is {p_fmt}% of the month")
 
-        month_wanted = datetime.datetime.now().isoformat()[:7]  # usually
-        # month_wanted = '2022-04' # override
+        # month_wanted = datetime.datetime.now().isoformat()[:7]  # usually
+        month_wanted = '2022-05' # override
         budget_category_totals = self.m.df[self.m.df['month-year'] == str(month_wanted)].groupby('budget_category').sum('amount') * -1
         budget_category_totals['budget_category'] = budget_category_totals.index
         budget_category_totals['budget_goal'] = budget_category_totals.apply(lambda row: self.get_budget_goal(row), axis=1)
