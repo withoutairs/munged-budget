@@ -5,10 +5,9 @@ import glob
 import datetime
 import calendar
 import os
+from openpyxl import load_workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
 
-def excel_name():
-    "OO w/e"
-    return "munged-{}.xlsx".format(datetime.datetime.now().isoformat()[:10])
 
 class Munger():
     "Adds our budget category and generally cleans up the Mint data"
@@ -42,7 +41,11 @@ class Munger():
         self.df['budget_category'] = self.df['category'].apply(map.get)
         self.df['amount'] = self.df.apply(lambda row: self.fix_paychecks(row), axis=1)
         self.df['description'] = self.df.apply(lambda row: self.fix_descriptions(row), axis=1)
-        self.df.to_excel(excel_name(),index=False)
+        wb = load_workbook('spending-master.xlsx')
+        ws = wb.create_sheet(title="Data")
+        for r in dataframe_to_rows(self.df, index=False, header=True):
+            ws.append(r)
+        wb.save('spending.xlsx')
 
     def fix_descriptions(self, row):
         if row['description'].startswith('OCULUS *'):
@@ -71,9 +74,12 @@ class Munger():
             return row['description']
 
 class AssertMungeTestCase(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.m = Munger()
         self.m.munge()
+
+    def setUp(self):
         with open('budget.yaml', 'r') as f:
             self.budget = yaml.load(f, Loader=yaml.FullLoader)
 
@@ -127,4 +133,4 @@ class AssertMungeTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        os.system("open " + excel_name())
+        os.system("open spending.xlsx")
