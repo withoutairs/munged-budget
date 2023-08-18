@@ -3,3 +3,5 @@
 *.iml
 *.xls*
 .venv
+balances.txt
+draw.txt
