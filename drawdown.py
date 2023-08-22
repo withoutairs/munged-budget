@@ -4,6 +4,7 @@ import logging
 from datetime import datetime, timedelta
 
 import xlsxwriter
+from dateutil.relativedelta import relativedelta
 from xlsxwriter.utility import xl_col_to_name
 
 # Set up logging handler
@@ -78,8 +79,7 @@ worksheet.write(1, 2, "Months From Now →")
 col = 3
 for d in draws:
     month = col - 3
-    delta = timedelta(weeks=(month * 4)) # todo really add a month instead of 4 weeks
-    month_display = (datetime.now() + delta).isoformat()[:7]
+    month_display = (datetime.now() + relativedelta(months=(month))).isoformat()[:7]
     worksheet.write(0, col, month_display)
     worksheet.write(1, col, month)
     worksheet.write(2, col, d, currency_format)
